@@ -1,0 +1,47 @@
+# =============================================================================
+# machines-archive — .gitignore
+# Blue Teamers may clone this repo and run machines locally.
+# We must not accidentally commit their local Vagrant state.
+# =============================================================================
+
+# --- Vagrant (Blue Teamers run machines locally from this repo) ---
+.vagrant/
+*.box
+
+# --- Ansible ---
+*.retry
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+
+# --- Secrets & environment files ---
+# Archived sources must never contain flags or real secrets
+.env
+.env.*
+*.pem
+*.key
+vault_password
+.vault_pass
+
+# --- Logs ---
+*.log
+
+# --- OS artifacts ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*~
+
+# --- Editor / IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Temporary files ---
+*.tmp
+*.bak
+*.orig
