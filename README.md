@@ -44,7 +44,7 @@ machines-archive/
 │
 └── vuln-apache-path-traversal-v1.0/       ← Revealed after first pwn of Bee-Path v1.0
     ├── README.md                          # Context: what the vuln was, when it was pwned
-    ├── Vagrantfile                        # VM definition (flag removed)
+    ├── Vagrantfile                        # VM definition (for local testing — flag removed)
     ├── provision/
     │   ├── playbook.yml                   # Ansible playbook (flag replaced with placeholder)
     │   └── roles/
@@ -60,7 +60,8 @@ machines-archive/
         └── service_test.py
 ```
 
-> **Note:** The flag value is **removed** before archiving. The `provision/roles/flag` task is replaced with a placeholder so the archive is safe to make public.
+> **Note:** The flag value is **removed** before archiving. The `provision/roles/flag` task is
+> replaced with a placeholder so the archive is safe to make public.
 
 ---
 
@@ -71,14 +72,16 @@ machines-archive/
 3. **Fork this repository** to your own GitHub account
 4. **Study the code** — find the root cause of the vulnerability
 5. **Apply your fix** — edit the relevant files (e.g., `httpd.conf`, `docker-compose.yml`, application source code)
-6. **Test your patch** locally using `vagrant up` with your modified code
+6. **Test your patch locally** — you have two options:
+   - Quick test: `docker compose up --build` inside the `app/` folder, then run the exploit against `localhost`
+   - Full test: `vagrant up` with your modified code for a completely isolated VM environment (closer to what the CI does for players)
 7. **Open a Pull Request** in `machines-public` with your patch writeup
 
 The CI pipeline will automatically:
-- Boot a VM using your patched code
+- Start the Docker services using your patched `docker-compose.yml` and application code
 - Check that all services still respond (SLA test)
-- Run the original exploit against your patched version — it **must fail**
-- Scan for new backdoors or secrets
+- Run the original Red Teamer's exploit against your patched version — it **must fail** (exit code `1`)
+- Scan for new backdoors or secrets (TruffleHog + Semgrep)
 
 See the [Blue Team Guide](../docs/GUIDE_BLUETEAM.md) for detailed instructions.
 
@@ -107,4 +110,5 @@ machines-archive (this repo) ←── Blue Teamers fork from here
 machines-public (BreachToPatch, public)
    └── Blue Team patch PRs are submitted there
    └── Patch PRs reference which archive version they are fixing
+   └── CI starts Docker services from the patched code and validates automatically
 ```
