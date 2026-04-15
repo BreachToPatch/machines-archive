@@ -1,4 +1,4 @@
-# Dockerfile.ci — CI-only image for Bee-Path (archived version v1.0)
+# Dockerfile.ci — CI-only image for Bee-Path (archived version v1)
 # ==================================================================
 # This file is part of the Blue Team archive.
 # Blue Teamers fork this file and modify it to patch the vulnerability.

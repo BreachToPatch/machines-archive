@@ -42,7 +42,7 @@ Each entry in this archive corresponds to a specific **version** of a machine at
 machines-archive/
 ├── README.md                              ← You are here
 │
-└── vuln-apache-path-traversal-v1.0/       ← Revealed after first pwn of Bee-Path v1.0
+└── vuln-apache-path-traversal-v1/       ← Revealed after first pwn of Bee-Path v1
     ├── README.md                          # Context: what the vuln was, when it was pwned
     ├── Vagrantfile                        # VM definition (for local testing — flag removed)
     ├── provision/
@@ -67,7 +67,7 @@ machines-archive/
 
 ## For Blue Teamers — How to use this repo
 
-1. **Find the machine** you want to patch (e.g., `vuln-apache-path-traversal-v1.0/`)
+1. **Find the machine** you want to patch (e.g., `vuln-apache-path-traversal-v1/`)
 2. **Read the README** inside the folder to understand the vulnerability context
 3. **Fork this repository** to your own GitHub account
 4. **Study the code** — find the root cause of the vulnerability
@@ -93,8 +93,8 @@ Archive folders are named: `{machine-slug}-v{version}/`
 
 | Folder | Meaning |
 |--------|---------|
-| `vuln-apache-path-traversal-v1.0` | Bee-Path, original version, revealed after first pwn |
-| `vuln-apache-path-traversal-v1.1` | Bee-Path after first patch, revealed after second pwn |
+| `vuln-apache-path-traversal-v1` | Bee-Path, original version, revealed after first pwn |
+| `vuln-apache-path-traversal-v2` | Bee-Path after first patch, revealed after second pwn |
 
 ---
 

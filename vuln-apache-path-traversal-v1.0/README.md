@@ -1,4 +1,4 @@
-# Archive: vuln-apache-path-traversal-v1.0
+# Archive: vuln-apache-path-traversal-v1
 
 > **BreachToPatch — machines-archive**
 > Sanitized source code revealed after First Blood. For Blue Team use.
@@ -10,7 +10,7 @@
 | Field | Value |
 |-------|-------|
 | Machine slug | `vuln-apache-path-traversal` |
-| Archived version | `v1.0` |
+| Archived version | `v1` |
 | First Blood by | [@MohamedOutougane](https://github.com/MohamedOutougane) |
 | First Blood PR | https://github.com/BreachToPatch/machines-public/pull/1 |
 | Archived on | 2026-04-15 |
@@ -20,7 +20,7 @@
 ## What this archive is
 
 This folder contains the **sanitized source code** of `vuln-apache-path-traversal` as it existed
-at version `v1.0`.
+at version `v1`.
 
 It was made public automatically after the first validated pwn, so that Blue Teamers can:
 - Study the vulnerable code
