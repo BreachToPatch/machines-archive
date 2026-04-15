@@ -1,0 +1,30 @@
+# Dockerfile.ci — CI-only image for Bee-Path
+# =============================================
+# THIS IMAGE IS NEVER PUSHED TO A PUBLIC REGISTRY.
+# It is pushed to a private ghcr.io package under btop-sources.
+#
+# Difference from the player Dockerfile:
+#   - The flag is baked directly into /root/flag.txt
+#   - This removes the need for Vagrant/Ansible/VirtualBox in the CI pipeline
+#   - GitHub Actions can pull this image and test exploits against it directly
+
+FROM httpd:2.4.49
+
+# Copy the vulnerable Apache configuration (same as the player image)
+COPY app/apache/httpd.conf /usr/local/apache2/conf/httpd.conf
+
+# Create the index page (same as the player image)
+RUN echo "<html><body><h1>Welcome to Bee-Path</h1></body></html>" \
+    > /usr/local/apache2/htdocs/index.html
+
+# Ensure the cgi-bin directory exists (required for RCE via mod_cgi)
+RUN mkdir -p /usr/local/apache2/cgi-bin
+
+# Bake the flag into the image for CI use.
+# The flag is read-only and only accessible to root — the exploit must achieve
+# privilege escalation (via RCE) to read it, exactly as in the real VM.
+RUN mkdir -p /root \
+    && echo "FLAG{REDACTED}" > /root/flag.txt \
+    && chmod 400 /root/flag.txt
+
+EXPOSE 80

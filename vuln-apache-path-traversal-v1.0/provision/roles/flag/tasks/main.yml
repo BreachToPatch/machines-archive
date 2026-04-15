@@ -1,0 +1,12 @@
+---
+# Places the flag file at /root/flag.txt inside the VM.
+# The flag variable is defined in the main playbook vars section.
+# Only root can read it — players must achieve privilege escalation to read it.
+
+- name: Write flag to /root/flag.txt
+  copy:
+    content: "{{ flag }}\n"
+    dest: /root/flag.txt
+    owner: root
+    group: root
+    mode: "0400"   # read-only, root only

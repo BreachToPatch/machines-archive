@@ -1,0 +1,40 @@
+---
+# Main Ansible playbook for the Bee-Path machine.
+# This runs inside the VM (ansible_local provisioner).
+# It installs Docker, writes the flag, then starts the vulnerable service.
+
+- name: Provision Bee-Path
+  hosts: all
+  become: true   # run as root
+
+  vars:
+    # -----------------------------------------------------------------------
+    # FLAG — never commit this to a public repository
+    # The SHA-256 of this value is published in machines-public README.
+    # SHA-256: 280072fcc625c14d053e1f46d45621459551e0c8ff167fb1b51650c2b861be3d
+    # -----------------------------------------------------------------------
+    flag: "FLAG{REDACTED}"
+
+    app_src:  "/vagrant/app"
+    app_dest: "/opt/bee-path"
+
+  roles:
+    - docker
+    - flag
+
+  tasks:
+    - name: Create app directory
+      file:
+        path: "{{ app_dest }}"
+        state: directory
+        mode: "0755"
+
+    - name: Copy app files into the VM
+      copy:
+        src:  "{{ app_src }}/"
+        dest: "{{ app_dest }}/"
+
+    - name: Start the vulnerable Apache service
+      shell: "docker compose up -d --build"
+      args:
+        chdir: "{{ app_dest }}"
