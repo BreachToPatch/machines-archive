@@ -1,12 +1,14 @@
-# Dockerfile.ci — CI-only image for Bee-Path
-# =============================================
-# THIS IMAGE IS NEVER PUSHED TO A PUBLIC REGISTRY.
-# It is pushed to a private ghcr.io package under btop-sources.
+# Dockerfile.ci — CI-only image for Bee-Path (archived version v1.0)
+# ==================================================================
+# This file is part of the Blue Team archive.
+# Blue Teamers fork this file and modify it to patch the vulnerability.
 #
-# Difference from the player Dockerfile:
-#   - The flag is baked directly into /root/flag.txt
-#   - This removes the need for Vagrant/Ansible/VirtualBox in the CI pipeline
-#   - GitHub Actions can pull this image and test exploits against it directly
+# IMPORTANT — ARG FLAG_VALUE pattern (do not remove):
+# The CI will inject a validation flag via --build-arg FLAG_VALUE
+# when testing your patch. Your Dockerfile MUST keep this ARG block
+# so the injected flag ends up in /root/flag.txt.
+# The exploit will attempt to read that file — if your patch is effective,
+# it won't be able to, and the CI will accept your submission.
 
 FROM httpd:2.4.49
 
@@ -20,11 +22,14 @@ RUN echo "<html><body><h1>Welcome to Bee-Path</h1></body></html>" \
 # Ensure the cgi-bin directory exists (required for RCE via mod_cgi)
 RUN mkdir -p /usr/local/apache2/cgi-bin
 
-# Bake the flag into the image for CI use.
-# The flag is read-only and only accessible to root — the exploit must achieve
-# privilege escalation (via RCE) to read it, exactly as in the real VM.
+# -----------------------------------------------------------------------
+# FLAG INJECTION — required for CI patch validation. Do not remove.
+# The CI passes FLAG_VALUE via --build-arg to verify your patch blocks
+# the exploit. You do not need to know the value — just keep this block.
+# -----------------------------------------------------------------------
+ARG FLAG_VALUE=FLAG{PLACEHOLDER}
 RUN mkdir -p /root \
-    && echo "FLAG{REDACTED}" > /root/flag.txt \
+    && echo "$FLAG_VALUE" > /root/flag.txt \
     && chmod 400 /root/flag.txt
 
 EXPOSE 80
